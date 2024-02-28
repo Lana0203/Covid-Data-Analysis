@@ -39,7 +39,7 @@ GROUP BY location, population
 ORDER BY Percentage_Highest_Population_Infected DESC;
 -- The country with the highest percentage of population infected is Brunei, with around 75% of the population infected
 
--- Countries with the Highest Death Count
+-- Total death count by country
 
 SELECT Location, MAX(cast(total_deaths as INT)) AS Highest_Death_Count
 FROM PortfolioProject1.dbo.CovidDeaths
@@ -48,17 +48,12 @@ GROUP BY location
 ORDER BY Highest_Death_Count DESC;
 -- Note: using the 'cast' function to convert total_deaths from VARCHAR to INT since the data returned is incorrect due to SQL not considering the total_death values as numbers
 
--- Continents with the Highest Death Count
+-- Total death count per continent
 
 SELECT location, MAX(cast(total_deaths as INT)) AS Highest_Death_Count
 FROM PortfolioProject1.dbo.CovidDeaths
 WHERE continent IS NULL 
-AND location !='World' 
-AND location != 'High income'
-AND location !='Upper middle income' 
-AND location !='Lower middle income'
-AND location !='European Union'
-AND location !='Low income'
+AND location NOT IN ('World', 'High income', 'Upper middle income', 'Lower middle income','European Union', 'Low income')
 GROUP BY location
 ORDER BY Highest_Death_Count DESC;
 -- Note: if the 'continent' column is not null the 'location' column contains the correct numbers for the continents, but it also contains values we don't need (e.g. High income, Low income, European Union) so I excluded them with the WHERE statement
